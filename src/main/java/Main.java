@@ -2,6 +2,7 @@ import org.flywaydb.core.Flyway;
 import org.mariadb.jdbc.MariaDbDataSource;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Main {
@@ -21,6 +22,8 @@ public class Main {
         flyway.migrate();
 
         BooksRepository booksRepository = new BooksRepository(datasource);
+        AudioBooksRepository audioBooksRepository = new AudioBooksRepository(datasource);
+
         booksRepository.insertBook("Fekete István", "VUK", 3500, 1);
         booksRepository.insertBook("Fekete István", "Téli berek", 3800, 5);
         booksRepository.insertBook("Fekete Péter", "Kártyatrükkök", 2500, 5);
@@ -33,5 +36,28 @@ public class Main {
         System.out.println(books);
 
         System.out.println(booksRepository.findBookById(2l));
+
+        audioBooksRepository.saveAudioBook(
+                new AudioBook(0,"Harry Potter és a bölcsek köve.", LocalDate.of(1997,1,15))
+        );
+
+        audioBooksRepository.saveAudioBookJdbcT(
+                new AudioBook(0,"Harry Potter és a titkok kamrája.", LocalDate.of(1998,1,15))
+        );
+
+        System.out.println(audioBooksRepository.findAudioBookById(1).getTitle());
+        System.out.println(audioBooksRepository.findAudioBookByIdJdbcT(2).getTitle());
+
+        long id1 = audioBooksRepository.saveAudiobookGetBackId(
+                new AudioBook(0,"Harry Potter és az Azkabani fogoly.", LocalDate.of(1999,1,15))
+        );
+
+        System.out.println(audioBooksRepository.findAudioBookById(id1).getTitle());
+
+        long id2 = audioBooksRepository.saveAudiobookGetBackId(
+                new AudioBook(0,"Harry Potter és a tűz serlege.", LocalDate.of(2000,1,15))
+        );
+
+        System.out.println(audioBooksRepository.findAudioBookById(id2).getTitle());
     }
 }

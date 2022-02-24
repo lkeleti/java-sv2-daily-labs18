@@ -1,0 +1,1 @@
+CREATE TABLE audiobooks (id BIGINT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(50), release_date DATE);

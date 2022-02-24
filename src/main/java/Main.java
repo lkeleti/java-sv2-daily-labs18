@@ -24,7 +24,8 @@ public class Main {
         booksRepository.insertBook("Fekete István", "VUK", 3500, 1);
         booksRepository.insertBook("Fekete István", "Téli berek", 3800, 5);
         booksRepository.insertBook("Fekete Péter", "Kártyatrükkök", 2500, 5);
-        booksRepository.insertBook("Móra Ferenc", "Kincskereső kisködmön", 3000, 5);
+        long id = booksRepository.insertBookGetBackId("Móra Ferenc", "Kincskereső kisködmön", 3000, 5);
+        System.out.println(id);
 
         booksRepository.updatePieces(1l,30);
 
